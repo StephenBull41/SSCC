@@ -22,6 +22,7 @@ namespace SSCC
         static void Main(string[] args)
         {
             Setup();
+            //
         }
 
         static void Setup()
