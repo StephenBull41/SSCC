@@ -5,12 +5,16 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 
+/*To do:
+ * Add control over how long the tread sleeps after receiving a ping response
+ * Support for reference connections for better clarity of if a link is down or just a client
+ * 
+ */
 
 namespace SSCC
 {
     class Program
     {
-
         static string address = "";
         static DateTime end_date = DateTime.Now;
         static DateTime start_date = DateTime.Now;
@@ -19,6 +23,7 @@ namespace SSCC
         static bool cont = true;
         static string out_file = "";
         static int max_wait = 1000;
+        static int dropout_def = 15;
 
         static void Main(string[] args)
         {
@@ -60,7 +65,7 @@ namespace SSCC
             }
             catch (Exception)
             {
-                Console.WriteLine("Incorrect data type, please enter a number with up to one decimal place");
+                Console.WriteLine("Incorrect data type, please enter a max of one decimal place");
                 goto length;
             }
 
@@ -89,8 +94,23 @@ namespace SSCC
                 Console.WriteLine("error: was not able to convert \"" + timeout_s + "\" to an integer");
                 goto adv_start;
             }
-            
-            // todo dropout time definition
+
+            set_drop_def:;
+            Console.WriteLine();
+            Console.Write("How many seconds offline is considered a dropout: ");
+            string drop = Console.ReadLine();
+            if (drop == "exit") { Environment.Exit(0); }
+            if (drop == "new") { goto start; }
+            try
+            {
+                dropout_def = Convert.ToInt32(drop);
+            }
+            catch (Exception)
+            {
+                Console.Clear();
+                Console.WriteLine("error: was not able to convert \"" + drop + "\" to an integer");
+                goto set_drop_def;
+            }
 
             adv_exit:;
             Console.Clear();
@@ -206,7 +226,7 @@ namespace SSCC
                         fail_counter++;
                         if (fail_counter == 1) { drop_start = DateTime.Now; }
                         //if dropout has lasted 15 seconds or more
-                        if (DateTime.Compare(drop_start.AddSeconds(15), DateTime.Now) <= 0)
+                        if (DateTime.Compare(drop_start.AddSeconds(dropout_def), DateTime.Now) <= 0)
                         {
                             log_drop = true;
                         }
@@ -220,7 +240,7 @@ namespace SSCC
                     fail_counter++;
                     if (fail_counter == 1) { drop_start = DateTime.Now; }
                     //if dropout has lasted 15 seconds or more
-                    if (DateTime.Compare(drop_start.AddSeconds(15), DateTime.Now) <= 0)
+                    if (DateTime.Compare(drop_start.AddSeconds(dropout_def), DateTime.Now) <= 0)
                     {
                         log_drop = true;
                     }
