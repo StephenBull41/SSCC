@@ -18,6 +18,7 @@ namespace SSCC
         static volatile bool connected = false;
         static bool cont = true;
         static string out_file = "";
+        static int max_wait = 1000;
 
         static void Main(string[] args)
         {
@@ -66,7 +67,35 @@ namespace SSCC
             end_date = DateTime.Now.AddHours(add_time);
 
             Console.Clear();
-            Console.Write("Monitoring " + address + " until " + end_date);
+            Console.Write("Configure advanced settings?(y/n): ");
+            string adv = Console.ReadLine();
+            if(adv != "y") { goto adv_exit; }
+
+            // set advanced settings
+            
+            adv_start:;
+            Console.WriteLine();
+            Console.Write("Enter timeout in ms: ");
+            string timeout_s = Console.ReadLine();
+            if (timeout_s == "exit") { Environment.Exit(0); }
+            if (timeout_s == "new") { goto start; }
+            try
+            {
+                max_wait = Convert.ToInt32(timeout_s);
+            }
+            catch (Exception)
+            {
+                Console.Clear();
+                Console.WriteLine("error: was not able to convert \"" + timeout_s + "\" to an integer");
+                goto adv_start;
+            }
+            
+            // todo dropout time definition
+
+            adv_exit:;
+            Console.Clear();
+            Console.WriteLine("Monitoring " + address + " until " + end_date);
+            Console.WriteLine("Timeout set to: " + max_wait);
             Console.WriteLine();
             start_date = DateTime.Now;
 
@@ -101,6 +130,7 @@ namespace SSCC
                     Console.Clear();
                     Console.WriteLine("Target host: " + address);
                     if (status) { Console.WriteLine("Current thread status: Active"); } else { Console.WriteLine("Current thread status: Inactive"); }
+                    Console.WriteLine("Timeout: " + max_wait);
                     Console.WriteLine("Start time: " + start_date);
                     Console.WriteLine("Current time: " + DateTime.Now);
                     Console.WriteLine("End Time: " + end_date);
@@ -148,6 +178,7 @@ namespace SSCC
             bool log_drop = false;
 
             File.AppendAllText(out_file, "Target host: " + address + Environment.NewLine);
+            File.AppendAllText(out_file, "Timeout: " + max_wait + Environment.NewLine);
             File.AppendAllText(out_file, "Log started " + DateTime.Now + Environment.NewLine);
             File.AppendAllText(out_file, "Dropout start time,Dropout end time");
 

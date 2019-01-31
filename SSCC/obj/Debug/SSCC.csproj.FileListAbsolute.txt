@@ -4,3 +4,9 @@ D:\VS2017\GitHub\Steve's Super Connection Checker\SSCC\bin\Debug\SSCC.pdb
 D:\VS2017\GitHub\Steve's Super Connection Checker\SSCC\obj\Debug\SSCC.csproj.CoreCompileInputs.cache
 D:\VS2017\GitHub\Steve's Super Connection Checker\SSCC\obj\Debug\SSCC.exe
 D:\VS2017\GitHub\Steve's Super Connection Checker\SSCC\obj\Debug\SSCC.pdb
+C:\Users\SteveM8\Source\Repos\StephenBull41\SSCC\SSCC\bin\Debug\SSCC.exe.config
+C:\Users\SteveM8\Source\Repos\StephenBull41\SSCC\SSCC\bin\Debug\SSCC.exe
+C:\Users\SteveM8\Source\Repos\StephenBull41\SSCC\SSCC\bin\Debug\SSCC.pdb
+C:\Users\SteveM8\Source\Repos\StephenBull41\SSCC\SSCC\obj\Debug\SSCC.csproj.CoreCompileInputs.cache
+C:\Users\SteveM8\Source\Repos\StephenBull41\SSCC\SSCC\obj\Debug\SSCC.exe
+C:\Users\SteveM8\Source\Repos\StephenBull41\SSCC\SSCC\obj\Debug\SSCC.pdb
