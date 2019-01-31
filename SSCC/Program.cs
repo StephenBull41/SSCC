@@ -26,6 +26,7 @@ namespace SSCC
 
         static void Setup()
         {
+            start:;
             Console.WriteLine("Entered monitor setup");
             Console.WriteLine("SSCC - " + DateTime.Now.ToString());
 
@@ -33,11 +34,14 @@ namespace SSCC
             Console.WriteLine();
             Console.Write("Enter hostname or IP to monitor: ");
             address = Console.ReadLine();
+            if(address == "exit") { Environment.Exit(0); }
 
             //report path
             Console.WriteLine();
             Console.Write("Enter out file path: ");
             out_file = Console.ReadLine();
+            if (out_file == "exit") { Environment.Exit(0); }
+            if (out_file == "new") { goto start; }
 
             //report length
             length:;
@@ -45,9 +49,13 @@ namespace SSCC
             Double add_time = 1;
             Console.Write("Enter how many hours to monitor: ");
 
+
             try
             {
-                add_time = Convert.ToDouble(Console.ReadLine());
+                string a = Console.ReadLine();
+                if (a == "exit") { Environment.Exit(0); }
+                if (a == "new") { goto start; }
+                add_time = Convert.ToDouble(a);
             }
             catch (Exception)
             {
@@ -117,6 +125,7 @@ namespace SSCC
             Console.WriteLine("Commands:");
             Console.WriteLine();
             Console.WriteLine("help: shows all commands");
+            Console.WriteLine("new: returns to start of setup, only available while in setup");
             Console.WriteLine("status: gets status of worker thread");
             Console.WriteLine("stop: stops current worker thread & goes to setup");
             Console.WriteLine("exit: closes the app");
