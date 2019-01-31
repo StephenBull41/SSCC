@@ -22,7 +22,6 @@ namespace SSCC
         static void Main(string[] args)
         {
             Setup();
-            //
         }
 
         static void Setup()
@@ -189,7 +188,7 @@ namespace SSCC
                 }
 
             }
-            File.AppendAllText(out_file, "Log end " + DateTime.Now);
+            File.AppendAllText(out_file, Environment.NewLine + "Log end " + DateTime.Now);
             status = false;
             Console.WriteLine("thread stopped");
             Setup();
