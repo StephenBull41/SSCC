@@ -116,6 +116,7 @@ namespace SSCC
             Console.Clear();
             Console.WriteLine("Monitoring " + address + " until " + end_date);
             Console.WriteLine("Timeout set to: " + max_wait);
+            Console.WriteLine("Dropout defined as " + dropout_def + " seconds");
             Console.WriteLine();
             start_date = DateTime.Now;
 
@@ -150,7 +151,8 @@ namespace SSCC
                     Console.Clear();
                     Console.WriteLine("Target host: " + address);
                     if (status) { Console.WriteLine("Current thread status: Active"); } else { Console.WriteLine("Current thread status: Inactive"); }
-                    Console.WriteLine("Timeout: " + max_wait);
+                    Console.WriteLine("Timeout: " + max_wait + "ms");
+                    Console.WriteLine("Dropout defined as " + dropout_def + " seconds");
                     Console.WriteLine("Start time: " + start_date);
                     Console.WriteLine("Current time: " + DateTime.Now);
                     Console.WriteLine("End Time: " + end_date);
@@ -165,6 +167,13 @@ namespace SSCC
                 case "exit":
                     Environment.Exit(0);
                     break;
+                case "log":
+                    string[] logtext = File.ReadAllLines(out_file);
+                    foreach(string line in logtext){
+                        Console.WriteLine(line);
+                    }
+                    Console.WriteLine("");
+                    goto idle;
                 default:
                     goto idle;
             }
@@ -180,6 +189,7 @@ namespace SSCC
             Console.WriteLine("stop: stops current worker thread & goes to setup");
             Console.WriteLine("exit: closes the app");
             Console.WriteLine("cls: clears the screen");
+            Console.WriteLine("log: writes the log file to the console");
             Console.WriteLine();
             Console.WriteLine();
         }
@@ -198,7 +208,8 @@ namespace SSCC
             bool log_drop = false;
 
             File.AppendAllText(out_file, "Target host: " + address + Environment.NewLine);
-            File.AppendAllText(out_file, "Timeout: " + max_wait + Environment.NewLine);
+            File.AppendAllText(out_file, "Timeout: " + max_wait + "ms" + Environment.NewLine);
+            File.AppendAllText(out_file, "Dropout defined as " + dropout_def + " seconds");
             File.AppendAllText(out_file, "Log started " + DateTime.Now + Environment.NewLine);
             File.AppendAllText(out_file, "Dropout start time,Dropout end time");
 
@@ -248,6 +259,7 @@ namespace SSCC
                 }
 
             }
+            if(log_drop){ File.AppendAllText(out_file, Environment.NewLine + drop_start + "," + DateTime.Now + " - Logged due to end of monitor, connectivity not restored"); }
             File.AppendAllText(out_file, Environment.NewLine + "Log end " + DateTime.Now);
             status = false;
             Console.WriteLine("thread stopped");
