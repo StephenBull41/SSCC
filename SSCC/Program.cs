@@ -209,7 +209,7 @@ namespace SSCC
 
             File.AppendAllText(out_file, "Target host: " + address + Environment.NewLine);
             File.AppendAllText(out_file, "Timeout: " + max_wait + "ms" + Environment.NewLine);
-            File.AppendAllText(out_file, "Dropout defined as " + dropout_def + " seconds");
+            File.AppendAllText(out_file, "Dropout defined as " + dropout_def + " seconds" + Environment.NewLine);
             File.AppendAllText(out_file, "Log started " + DateTime.Now + Environment.NewLine);
             File.AppendAllText(out_file, "Dropout start time,Dropout end time");
 
